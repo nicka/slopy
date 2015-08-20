@@ -1,5 +1,6 @@
 require 'aws-sdk'
 require 'json'
+require 'shellwords'
 
 module Slopy
   class SQS
@@ -26,7 +27,7 @@ module Slopy
         puts "Incoming hubot SQS message: #{json}"
         if json.key?('method') && json['method'] == 'say'
           Slopy.pause
-          `say #{json['options']['params']}`
+          `say #{Shellwords.escape(json['options']['params'])}`
           Slopy.play
         elsif json.key?('method') && json['method'] == 'volume'
             set_volume = json['options']['params'].empty? ? 100 : json['options']['params'].to_i
