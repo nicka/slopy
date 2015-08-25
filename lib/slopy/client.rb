@@ -46,13 +46,21 @@ module Slopy
     run "set sound volume to #{to.to_i}"
   end
 
+  def check_current
+    now = _current_track
+    if @old != now
+      @old = now
+      push "Now playing: #{now}"
+    end
+  end
+
   private
 
   def run(command)
     `osascript -e 'tell application \"Spotify\" to #{command}'`
   end
 
-  def current_track
+  def _current_track
     command = %Q{
       tell application "Spotify"
         # set currentArtwork to artwork of current track as string
@@ -61,7 +69,11 @@ module Slopy
         return currentArtist & " - " & currentTrack
       end tell
     }
-    output = %x[osascript -e '#{command}']
+    %x[osascript -e '#{command}']
+  end
+
+  def current_track
+    output = _current_track
     push "Now playing: #{output}"
   end
 
