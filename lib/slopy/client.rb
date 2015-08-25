@@ -51,6 +51,7 @@ module Slopy
     if @old != now
       @old = now
       push "Now playing: #{now}"
+      push current_track_id
     end
   end
 
@@ -72,10 +73,21 @@ module Slopy
     %x[osascript -e '#{command}']
   end
 
+  def current_track_id
+    command = %Q{
+      tell application "Spotify"
+        set currentId to id of current track as string
+        return currentId
+      end tell
+    }
+    %x[osascript -e '#{command}']
+  end
+
   def current_track
     output = _current_track
     @old = output
     push "Now playing: #{output}"
+    push current_track_id
   end
 
   def toggle(command)
