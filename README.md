@@ -1,6 +1,6 @@
 # Slopy (Slack/Spotify)
 
-Control Spotify on OSX. Future plan is to intergrate with Slack.
+Control Spotify on OSX. Use the SQS runner to connect it with Hubot.
 
 ## Usage
 
