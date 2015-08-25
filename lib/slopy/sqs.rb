@@ -30,7 +30,7 @@ module Slopy
           `say #{Shellwords.escape(json['options']['params'])}`
           Slopy.play
         elsif json.key?('method') && json['method'] == 'volume'
-            set_volume = json['options']['params'].empty? ? 100 : json['options']['params'].to_i
+            set_volume = json['options']['params'].to_s.empty? ? 75 : json['options']['params'].to_i
             Slopy.volume(set_volume)
         else
           Slopy.send(json['method']) if json.key?('method')

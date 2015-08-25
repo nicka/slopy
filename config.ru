@@ -6,6 +6,18 @@ require 'dotenv'
 Dotenv.load
 
 if ENV['RUNNER'] == 'sqs'
+  Thread.new do
+    while true
+      begin
+        Slopy.check_current
+      rescue => e
+         $stderr.puts e.message
+         $stderr.puts e.backtrace.join("\n")
+      end
+
+      sleep 1
+    end
+  end.run
   sqs = Slopy::SQS.new
   sqs.poll
 else
