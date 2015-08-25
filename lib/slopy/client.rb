@@ -74,6 +74,7 @@ module Slopy
 
   def current_track
     output = _current_track
+    @old = output
     push "Now playing: #{output}"
   end
 
