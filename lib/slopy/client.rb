@@ -16,7 +16,7 @@ module Slopy
     if url.nil?
       run 'play'
     else
-      run "play track \"#{url}\""
+      run "play track \"#{url.to_s.strip}\""
     end
     current_track
   end

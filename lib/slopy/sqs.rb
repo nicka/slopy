@@ -26,9 +26,11 @@ module Slopy
         json = JSON.parse(msg.body)
         puts "Incoming hubot SQS message: #{json}"
         if json.key?('method') && json['method'] == 'say'
-          Slopy.pause
-          `say #{Shellwords.escape(json['options']['params'])}`
-          Slopy.play
+          say(json['options']['params'])
+        elsif json.key?('method') && json['method'] == 'sing'
+          say(json['options']['params'], 'Good')
+        elsif json.key?('method') && json['method'] == 'cellos'
+          say(json['options']['params'], 'Cellos')
         elsif json.key?('method') && json['method'] == 'volume'
             set_volume = json['options']['params'].to_s.empty? ? 75 : json['options']['params'].to_i
             Slopy.volume(set_volume)
@@ -36,6 +38,16 @@ module Slopy
           Slopy.send(json['method']) if json.key?('method')
         end
       end
+    end
+
+    def say(what, voice = nil)
+      cmd = "say"
+      cmd += " -v #{Shellwords.escape(voice)}" if voice.to_s.length > 0
+      cmd += " #{Shellwords.escape(what)}"
+
+      Slopy.pause
+      `#{cmd}`
+      Slopy.play
     end
   end
 end
