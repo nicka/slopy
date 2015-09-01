@@ -31,6 +31,8 @@ module Slopy
           say(json['options']['params'], 'Good')
         elsif json.key?('method') && json['method'] == 'cellos'
           say(json['options']['params'], 'Cellos')
+        elsif json.key?('method') && json['method'] == 'alien'
+          say(json['options']['params'], 'Trinoids')
         elsif json.key?('method') && json['method'] == 'volume'
             set_volume = json['options']['params'].to_s.empty? ? 75 : json['options']['params'].to_i
             Slopy.volume(set_volume)
