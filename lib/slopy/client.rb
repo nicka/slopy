@@ -14,8 +14,10 @@ module Slopy
 
   def play(url=nil)
     if url.nil?
+      puts 'play'
       run 'play'
     else
+      puts "play track \"#{url.to_s.strip}\""
       run "play track \"#{url.to_s.strip}\""
     end
     current_track
@@ -39,6 +41,7 @@ module Slopy
   end
 
   def start
+    puts "play track \"#{ENV['DEFAULT_PLAYLIST_URL']}\""
     run "play track \"#{ENV['DEFAULT_PLAYLIST_URL']}\""
   end
 

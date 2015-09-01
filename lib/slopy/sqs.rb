@@ -34,6 +34,8 @@ module Slopy
         elsif json.key?('method') && json['method'] == 'volume'
             set_volume = json['options']['params'].to_s.empty? ? 75 : json['options']['params'].to_i
             Slopy.volume(set_volume)
+        elsif json.key?('method') && json['method'] == 'play'
+          Slopy.play(json['options']['params'])
         else
           Slopy.send(json['method']) if json.key?('method')
         end
