@@ -13,6 +13,8 @@ module Slopy
   end
 
   def play(url=nil)
+    url = nil if url.to_s.strip.length == 0
+
     if url.nil?
       puts 'play'
       run 'play'

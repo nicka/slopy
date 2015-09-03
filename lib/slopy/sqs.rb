@@ -27,6 +27,8 @@ module Slopy
         puts "Incoming hubot SQS message: #{json}"
         if json.key?('method') && json['method'] == 'say'
           say(json['options']['params'])
+        elsif json.key?('method') && json['method'] == 'zeg'
+          say(json['options']['params'], 'Xander')
         elsif json.key?('method') && json['method'] == 'sing'
           say(json['options']['params'], 'Good')
         elsif json.key?('method') && json['method'] == 'cellos'
