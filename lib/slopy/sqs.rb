@@ -47,11 +47,14 @@ module Slopy
     end
 
     def say(what, voice = nil)
+      voice = 'Alex' if voice.nil?
+
       cmd = "say"
       cmd += " -v #{Shellwords.escape(voice)}" if voice.to_s.length > 0
       cmd += " #{Shellwords.escape(what)}"
 
       Slopy.pause
+      `afplay pling.mp3`
       `#{cmd}`
       Slopy.play
     end
