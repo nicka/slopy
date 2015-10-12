@@ -26,16 +26,37 @@ module Slopy
         json = JSON.parse(msg.body)
         puts "Incoming hubot SQS message: #{json}"
         if json.key?('method') && json['method'] == 'say'
-          Slopy.pause
-          `say #{Shellwords.escape(json['options']['params'])}`
-          Slopy.play
+          say(json['options']['params'])
+        elsif json.key?('method') && json['method'] == 'zeg'
+          say(json['options']['params'], 'Xander')
+        elsif json.key?('method') && json['method'] == 'sing'
+          say(json['options']['params'], 'Good')
+        elsif json.key?('method') && json['method'] == 'cellos'
+          say(json['options']['params'], 'Cellos')
+        elsif json.key?('method') && json['method'] == 'alien'
+          say(json['options']['params'], 'Trinoids')
         elsif json.key?('method') && json['method'] == 'volume'
             set_volume = json['options']['params'].to_s.empty? ? 75 : json['options']['params'].to_i
             Slopy.volume(set_volume)
+        elsif json.key?('method') && json['method'] == 'play'
+          Slopy.play(json['options']['params'])
         else
           Slopy.send(json['method']) if json.key?('method')
         end
       end
+    end
+
+    def say(what, voice = nil)
+      voice = 'Alex' if voice.nil?
+
+      cmd = "say"
+      cmd += " -v #{Shellwords.escape(voice)}" if voice.to_s.length > 0
+      cmd += " #{Shellwords.escape(what)}"
+
+      Slopy.pause
+      `afplay pling.mp3`
+      `#{cmd}`
+      Slopy.play
     end
   end
 end
